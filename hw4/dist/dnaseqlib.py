@@ -21,6 +21,9 @@ class RollingHash:
             n -= 1
         self.curhash = h
 
+    def hash(self):
+        return self.curhash
+    
     # Returns the current hash value.
     def current_hash(self):
         return self.curhash
@@ -58,6 +61,8 @@ class Array2D:
 # Given a sequence of matches, produces a w-by-h image and saves it to filename.
 # The remapping function takes values in (0,1) and returns values in (0,1); the default
 # value (fourth-root) makes lightly-populated bins considerably darker.
+
+
 def buildComparisonImage(filename, w, h, alen, blen, matches, remapfn=lambda x:math.sqrt(math.sqrt(x))):
     arr = Array2D('L', w, h, 0L)
     print "Sequence A length: " + str(alen)
@@ -67,7 +72,7 @@ def buildComparisonImage(filename, w, h, alen, blen, matches, remapfn=lambda x:m
     assert abinsize > 0 and bbinsize > 0
     print "Binning matches..."
     for m in matches:
-        #print m, (abinsize, bbinsize), (m[0]//abinsize, m[1]//bbinsize), (w, h)
+        # print m, (abinsize, bbinsize), (m[0]//abinsize, m[1]//bbinsize), (w, h)
         arr.incr(m[0] // abinsize, m[1] // bbinsize)
     print "...done binning matches."
     print "Normalizing and plotting results..."
@@ -79,6 +84,7 @@ def buildComparisonImage(filename, w, h, alen, blen, matches, remapfn=lambda x:m
             img.putpixel((x,y), (val,val,val))
     print "...done normalizing and plotting."
     img.save(filename)
+
 
 def compareSequences(getExactSubmatches, imgfile, imgsize, afile, bfile, k, m):
     a = kfasta.FastaSequence(afile)
